@@ -1,0 +1,287 @@
+/* ============================================================
+   Kararsızım — Tasarım Sistemi (doct/PROJE.md Bölüm 8)
+   Açık zemin + canlı renkler, kart tabanlı, yuvarlak köşeler.
+   ============================================================ */
+
+:root {
+  --bg:        #FAFAFF;   /* açık zemin (hafif lila-beyaz) */
+  --surface:   #FFFFFF;   /* kart yüzeyi */
+  --ink:       #232135;   /* ana metin */
+  --ink-soft:  #7A7B99;   /* ikincil metin */
+  --primary:   #6C5CE7;   /* canlı mor — ana marka rengi */
+  --primary-2: #A29BFE;   /* açık mor — hover/gradient eşi */
+  --accent:    #FF6B6B;   /* mercan — vurgu/hata eşliği */
+  --teal:      #00C9A7;   /* nane yeşili — başarı */
+  --blue:      #4D96FF;
+  --sun:       #FFC93C;   /* sarı */
+  --danger:    #E63946;
+  --border:    #E9E8F8;
+  --ring:      rgba(108, 92, 231, .25);
+
+  --shadow-sm: 0 2px 8px rgba(35, 33, 53, .06);
+  --shadow-md: 0 8px 24px rgba(108, 92, 231, .12);
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-pill: 999px;
+
+  /* Oy butonu / sonuç barı renk döngüsü (seçenek sırasına göre) */
+  --opt-1: var(--primary);
+  --opt-2: var(--accent);
+  --opt-3: var(--teal);
+  --opt-4: var(--blue);
+  --opt-5: var(--sun);
+}
+
+/* ---------- Reset / taban ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0 0 .4em; line-height: 1.2; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; }
+
+.container {
+  width: min(640px, 100% - 32px);
+  margin-inline: auto;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, .8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 12px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.logo:hover { text-decoration: none; }
+.logo-emoji { font-size: 1.2em; }
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  padding: 8px 12px;
+  border-radius: var(--r-pill);
+  color: var(--ink-soft);
+  font-weight: 600;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.nav-link:hover { color: var(--primary); text-decoration: none; }
+
+.nav-link--ghost {
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+}
+
+/* ---------- Butonlar ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--r-pill);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover { text-decoration: none; }
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.btn--primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.btn--ghost {
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+}
+.btn--ghost:hover { background: rgba(108, 92, 231, .08); }
+
+.btn--danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn--sm { min-height: 40px; padding: 8px 16px; font-size: .9rem; }
+
+/* ---------- Sayfa başlığı ---------- */
+
+.main-content { padding-block: 32px 48px; min-height: 60vh; }
+
+.page-head { margin-bottom: 24px; }
+
+.page-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+}
+
+.page-sub { margin: 0; color: var(--ink-soft); }
+
+/* ---------- Kart ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+}
+
+/* ---------- Anket kartı (feed) — Faz 2'de doldurulacak ---------- */
+
+.poll-card {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--ink);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.poll-card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.poll-card__question { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px; }
+.poll-card__meta { margin: 0; color: var(--ink-soft); font-size: .9rem; }
+
+/* ---------- Formlar ---------- */
+
+.form-card { max-width: 480px; margin-inline: auto; }
+
+.form-field { margin-bottom: 18px; }
+
+.form-field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+}
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+  border-color: var(--primary);
+}
+
+.field-error {
+  margin-top: 6px;
+  color: var(--danger);
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+/* ---------- Toast (Django messages) ---------- */
+
+.toast-stack {
+  position: fixed;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(420px, calc(100% - 32px));
+}
+
+.toast {
+  padding: 12px 18px;
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  animation: toast-in .25s ease;
+}
+
+.toast--success { background: var(--teal); color: #fff; }
+.toast--error, .toast--danger { background: var(--accent); color: #fff; }
+.toast--info, .toast--warning { background: var(--primary); color: #fff; }
+.toast--debug { background: var(--ink-soft); color: #fff; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Boş durum ---------- */
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+}
+.empty-state__emoji { font-size: 3rem; margin-bottom: 8px; }
+.empty-state__text {
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 20px;
+  color: var(--ink-soft);
+  font-size: .85rem;
+  text-align: center;
+}
+.site-footer p { margin: 0; }
+
+/* ---------- Küçük ekranlar ---------- */
+
+@media (max-width: 480px) {
+  .nav-link { display: none; }
+  .header-inner { justify-content: space-between; }
+}

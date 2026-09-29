@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Sanal ortam
+.venv/
+
+# Django
+db.sqlite3
+staticfiles/
+
+# Ortam / gizli dosyalar
+.env
+
+# IDE
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

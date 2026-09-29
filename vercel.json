@@ -1,0 +1,5 @@
+{
+  "builds": [{ "src": "kararsizim/wsgi.py", "use": "@vercel/python" }],
+  "routes": [{ "src": "/(.*)", "dest": "kararsizim/wsgi.py" }],
+  "buildCommand": "python -m pip install -r requirements.txt && python manage.py collectstatic --noinput"
+}
