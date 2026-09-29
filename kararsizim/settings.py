@@ -109,6 +109,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Kimlik doğrulama yönlendirmeleri (Faz 1)
+LOGIN_URL = "polls:login"
+LOGIN_REDIRECT_URL = "polls:index"
+LOGOUT_REDIRECT_URL = "polls:index"
+
+
 # Internationalization
 
 LANGUAGE_CODE = "tr"

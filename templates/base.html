@@ -19,10 +19,18 @@
         <span class="logo-emoji">🤔</span> Kararsızım
       </a>
       <nav class="site-nav">
-        {# Faz 1'de bu alan üye/misafir durumuna göre dinamik hale gelecek #}
-        <a class="nav-link" href="#">Giriş</a>
-        <a class="nav-link nav-link--ghost" href="#">Kayıt</a>
-        <a class="btn btn--primary btn--sm" href="#">+ Anket Oluştur</a>
+        {% if user.is_authenticated %}
+          <span class="nav-user" title="Giriş yaptın">@{{ user.username }}</span>
+          <a class="nav-link" href="#">Anketlerim</a>
+          <form method="post" action="{% url 'polls:logout' %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="nav-link nav-link--ghost">Çıkış</button>
+          </form>
+        {% else %}
+          <a class="nav-link" href="{% url 'polls:login' %}">Giriş</a>
+          <a class="nav-link nav-link--ghost" href="{% url 'polls:register' %}">Kayıt</a>
+        {% endif %}
+        <a class="btn btn--primary btn--sm" href="{% url 'polls:poll_create' %}">+ Anket Oluştur</a>
       </nav>
     </div>
   </header>
