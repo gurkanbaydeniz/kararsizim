@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Anketler{% endblock %}
+{% block title %}Anketlerim{% endblock %}
 
 {% block content %}
 <div class="page-head">
-  <h1 class="page-title">Anketler</h1>
-  <p class="page-sub">Karar veremeyenlere yardım et ya da kendi kararsızlığını paylaş 👇</p>
+  <h1 class="page-title">Anketlerim</h1>
+  <p class="page-sub">Açtığın anketler ve aldıkları oylar.</p>
 </div>
 
 {% if page_obj.object_list %}
   {% include "polls/_poll_cards.html" %}
 {% else %}
   <div class="empty-state">
-    <div class="empty-state__emoji">🎉</div>
-    <p class="empty-state__text">Şu an anket yok — ilk anketi sen aç!</p>
+    <div class="empty-state__emoji">🎈</div>
+    <p class="empty-state__text">Henüz anket oluşturmadın — ilki sen aç!</p>
     <a class="btn btn--primary" href="{% url 'polls:poll_create' %}">+ Anket Oluştur</a>
   </div>
 {% endif %}

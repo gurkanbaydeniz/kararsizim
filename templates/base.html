@@ -21,7 +21,7 @@
       <nav class="site-nav">
         {% if user.is_authenticated %}
           <span class="nav-user" title="Giriş yaptın">@{{ user.username }}</span>
-          <a class="nav-link" href="#">Anketlerim</a>
+          <a class="nav-link" href="{% url 'polls:my_polls' %}">Anketlerim</a>
           <form method="post" action="{% url 'polls:logout' %}" class="inline-form">
             {% csrf_token %}
             <button type="submit" class="nav-link nav-link--ghost">Çıkış</button>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ poll.question|truncatechars:50 }}{% endblock %}
+
+{% block content %}
+<article class="card poll-detail">
+  <h1 class="poll-detail__question">{{ poll.question }}</h1>
+  <p class="poll-card__meta">
+    @{{ poll.creator.username }} · {{ poll.gecen_sure }} · {{ poll.total_votes }} oy
+    {% if user.is_authenticated and poll.creator_id == user.id %}
+      <span class="badge badge--senin">Senin anketin</span>
+    {% endif %}
+  </p>
+
+  <div class="choice-list">
+    {% for choice in choices %}
+    <div class="choice-pill" role="group" aria-label="Seçenek: {{ choice.text }}">
+      <span class="choice-pill__dot"></span>
+      <span class="choice-pill__text">{{ choice.text }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <p class="poll-detail__note">🗳️ Oylama Faz 3'te açılıyor — çok yakında!</p>
+</article>
+{% endblock %}

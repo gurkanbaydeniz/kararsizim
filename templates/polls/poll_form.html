@@ -3,15 +3,56 @@
 {% block title %}Anket Oluştur{% endblock %}
 
 {% block content %}
-<div class="page-head">
-  <h1 class="page-title">Anket Oluştur</h1>
-  <p class="page-sub">Kararsızlığını paylaşmaya az kaldı!</p>
+<div class="page-head form-head">
+  <h1 class="page-title">Anket Oluştur 🎈</h1>
+  <p class="page-sub">Kararsızlığını yaz, 2-5 seçenek ekle, gerisini topluluk çözsün.</p>
 </div>
 
-<div class="card">
-  <div class="empty-state">
-    <div class="empty-state__emoji">🚧</div>
-    <p class="empty-state__text">Anket oluşturma bölümü Faz 2'de geliyor.</p>
-  </div>
+<div class="card form-card">
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+      <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <div class="form-field">
+      <label for="{{ form.question.id_for_label }}">{{ form.question.label }}</label>
+      {{ form.question }}
+      {% if form.question.help_text %}<p class="form-help">{{ form.question.help_text }}</p>{% endif %}
+      {% for error in form.question.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+    </div>
+
+    <fieldset class="form-field choice-fieldset">
+      <legend>Seçenekler <span class="legend-note">(en az 2, en fazla 5)</span></legend>
+      <div id="choice-rows">
+        <div class="choice-row">
+          <input type="text" name="choice1" maxlength="80" placeholder="1. seçenek" value="{{ form.choice1.value|default_if_none:'' }}">
+          <button type="button" class="choice-row__remove" aria-label="Seçeneği kaldır" hidden>✕</button>
+        </div>
+        <div class="choice-row">
+          <input type="text" name="choice2" maxlength="80" placeholder="2. seçenek" value="{{ form.choice2.value|default_if_none:'' }}">
+          <button type="button" class="choice-row__remove" aria-label="Seçeneği kaldır" hidden>✕</button>
+        </div>
+        <div class="choice-row">
+          <input type="text" name="choice3" maxlength="80" placeholder="3. seçenek" value="{{ form.choice3.value|default_if_none:'' }}">
+          <button type="button" class="choice-row__remove" aria-label="Seçeneği kaldır" hidden>✕</button>
+        </div>
+        <div class="choice-row">
+          <input type="text" name="choice4" maxlength="80" placeholder="4. seçenek" value="{{ form.choice4.value|default_if_none:'' }}">
+          <button type="button" class="choice-row__remove" aria-label="Seçeneği kaldır" hidden>✕</button>
+        </div>
+        <div class="choice-row">
+          <input type="text" name="choice5" maxlength="80" placeholder="5. seçenek" value="{{ form.choice5.value|default_if_none:'' }}">
+          <button type="button" class="choice-row__remove" aria-label="Seçeneği kaldır" hidden>✕</button>
+        </div>
+      </div>
+      <button type="button" id="add-choice" class="btn btn--ghost btn--sm">+ Seçenek ekle</button>
+    </fieldset>
+
+    <button type="submit" class="btn btn--primary btn--block">Anketi Yayınla</button>
+  </form>
 </div>
 {% endblock %}

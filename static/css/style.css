@@ -319,6 +319,138 @@ img { max-width: 100%; }
   font: inherit;
 }
 
+/* ---------- Anket detayı + seçenek pill'leri ---------- */
+
+.poll-detail__question {
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
+  font-weight: 800;
+}
+
+.poll-detail__note {
+  margin: 20px 0 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: .9rem;
+}
+
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.choice-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 20px;
+  border: 2px solid var(--opt, var(--primary));
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Seçenek renk döngüsü (doct/PROJE.md 8.1: --opt-1..5) */
+.choice-list .choice-pill:nth-child(5n+1) { --opt: var(--opt-1); }
+.choice-list .choice-pill:nth-child(5n+2) { --opt: var(--opt-2); }
+.choice-list .choice-pill:nth-child(5n+3) { --opt: var(--opt-3); }
+.choice-list .choice-pill:nth-child(5n+4) { --opt: var(--opt-4); }
+.choice-list .choice-pill:nth-child(5n+5) { --opt: var(--opt-5); }
+
+.choice-pill__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--opt, var(--primary));
+  flex-shrink: 0;
+}
+
+.choice-pill__text { overflow-wrap: anywhere; }
+
+/* ---------- Anket oluşturma: seçenek satırları ---------- */
+
+.choice-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 18px;
+}
+
+.legend-note { color: var(--ink-soft); font-weight: 600; font-size: .85rem; }
+
+#choice-rows { display: flex; flex-direction: column; gap: 10px; }
+
+.choice-row { display: flex; gap: 8px; align-items: center; }
+
+.choice-row input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  min-width: 0;
+}
+.choice-row input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+  border-color: var(--primary);
+}
+
+.choice-row__remove {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 107, 107, .12);
+  color: var(--accent);
+  font-weight: 800;
+  cursor: pointer;
+}
+.choice-row__remove:hover { background: rgba(255, 107, 107, .22); }
+
+.is-hidden { display: none; }
+
+#add-choice { margin-top: 10px; }
+
+/* ---------- Rozet + sayfalama ---------- */
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  font-size: .75rem;
+  font-weight: 800;
+}
+.badge--senin { background: rgba(108, 92, 231, .12); color: var(--primary); }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.pagination__link {
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--border);
+  color: var(--primary);
+  font-weight: 700;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+}
+.pagination__link:hover { border-color: var(--primary); text-decoration: none; }
+
+.pagination__info { color: var(--ink-soft); font-size: .9rem; }
+
 /* ---------- Küçük ekranlar ---------- */
 
 @media (max-width: 480px) {

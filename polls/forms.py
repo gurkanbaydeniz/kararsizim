@@ -56,3 +56,56 @@ class EmailOrUsernameAuthenticationForm(AuthenticationForm):
             if user:
                 self.cleaned_data["username"] = user.username
         return super().clean()
+
+
+MIN_SECENEK = 2
+MAKS_SECENEK = 5
+
+
+class PollForm(forms.Form):
+    """Anket oluşturma formu: soru + 2-5 seçenek (doct/PROJE.md Bölüm 6, kural 2)."""
+
+    question = forms.CharField(
+        label="Sorun",
+        widget=forms.Textarea(
+            attrs={"rows": 2, "placeholder": "Örn: Bugün sinemaya mı gitsem, restorana mı?"}
+        ),
+        error_messages={
+            "required": "Soru alanı zorunludur.",
+            "min_length": "Soru en az %(min_length)s karakter olmalı.",
+            "max_length": "Soru en fazla %(max_length)s karakter olabilir.",
+        },
+        min_length=10,
+        max_length=200,
+        help_text="10-200 karakter. Ne kadar net sorarsan o kadar iyi cevap alırsın.",
+    )
+
+    # 5 sabit slot; JS görünür satırları yönetir, sunucu boş olanları yok sayar
+    choice1 = forms.CharField(required=False)
+    choice2 = forms.CharField(required=False)
+    choice3 = forms.CharField(required=False)
+    choice4 = forms.CharField(required=False)
+    choice5 = forms.CharField(required=False)
+
+    def clean(self):
+        cleaned = super().clean()
+        soru = (cleaned.get("question") or "").strip()
+        secenekler = [
+            (cleaned.get(f"choice{i}") or "").strip()
+            for i in range(1, MAKS_SECENEK + 1)
+        ]
+        dolu = [s for s in secenekler if s]
+
+        if len(dolu) < MIN_SECENEK:
+            raise forms.ValidationError(
+                f"En az {MIN_SECENEK} seçenek yazmalısın (boş seçenek kabul edilmez)."
+            )
+        if any(len(s) > 80 for s in dolu):
+            raise forms.ValidationError("Seçenekler en fazla 80 karakter olabilir.")
+        kucuk = [s.casefold() for s in dolu]
+        if len(set(kucuk)) != len(kucuk):
+            raise forms.ValidationError("Aynı seçeneği birden fazla kez yazamazsın.")
+
+        cleaned["question"] = soru
+        cleaned["choices"] = dolu
+        return cleaned
