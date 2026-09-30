@@ -136,6 +136,18 @@ def my_polls(request):
     return render(request, "polls/my_polls.html", {"page_obj": page_obj})
 
 
+@login_required
+def poll_delete(request, pk):
+    """Anket sahibi kendi anketini silebilir (onaylı; oylarla birlikte kaldırılır)."""
+    poll = get_object_or_404(Poll, pk=pk)
+    if request.method == "POST" and poll.creator_id == request.user.id:
+        poll.delete()
+        messages.success(request, "Anketin silindi. Gerisi sana kalmış! 🧹")
+        return redirect("polls:my_polls")
+    messages.error(request, "Bu anketi silme yetkin yok.")
+    return redirect("polls:poll_detail", pk=pk)
+
+
 # ---------- Üyelik (Faz 1) ----------
 
 

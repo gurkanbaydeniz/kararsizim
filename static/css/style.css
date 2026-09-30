@@ -527,9 +527,27 @@ img { max-width: 100%; }
 
 .pagination__info { color: var(--ink-soft); font-size: .9rem; }
 
+.poll-detail__footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
 /* ---------- Küçük ekranlar ---------- */
 
 @media (max-width: 480px) {
   .nav-link { display: none; }
   .header-inner { justify-content: space-between; }
+  .logo { font-size: 1.05rem; }
+  .site-nav { gap: 4px; }
+  .nav-user {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px 6px;
+  }
+  .poll-detail__footer { flex-direction: column; align-items: stretch; }
+  .poll-detail__footer .btn { width: 100%; }
 }

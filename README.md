@@ -47,6 +47,19 @@ Ardından `/admin/` adresinden giriş yap.
 kararsizim/      → Django proje paketi (settings, urls, wsgi)
 polls/           → tek Django uygulaması (modeller, view'lar, formlar)
 templates/       → HTML şablonları
-static/          → css / js
+static/          → css / js / img
 doct/            → proje dokümantasyonu (PROJE.md)
 ```
+
+## Canlıya Çıkma (Vercel)
+
+1. Projeyi GitHub'a push et.
+2. [vercel.com](https://vercel.com) → **Add New → Project** → repoyu seç (Framework: **Other**).
+3. **Environment Variables** olarak gir:
+   - `SECRET_KEY` — rastgele uzun bir anahtar
+   - `DEBUG=0`
+   - `DATABASE_URL` — Supabase **Connection Pooler** URI'si (port 6543, sonunda `?sslmode=require`)
+   - `ALLOWED_HOSTS=localhost,127.0.0.1,.vercel.app`
+   - `CSRF_TRUSTED_ORIGINS=https://*.vercel.app`
+4. Migration'lar **her zaman yerelden** çalıştırılır (DB uzakta, canlıyı etkiler): `python manage.py migrate`
+5. Deploy sonrası canlıda uçtan uca kontrol: kayıt → anket oluştur → misafir oy → sonuçlar.

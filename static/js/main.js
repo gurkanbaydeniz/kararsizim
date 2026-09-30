@@ -1,6 +1,8 @@
 // Kararsızım — ince JS katmanı (doct/PROJE.md Bölüm 7.8)
 // 1) Toast bildirimlerinin otomatik kaybolması
 // 2) Anket oluşturma: dinamik seçenek satırları (2-5 arası)
+// 3) "Anketi paylaş": bağlantıyı panoya kopyalar
+// 4) Silme formlarında onay penceresi
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- Toast: ~3 sn sonra yumuşakça kaybol ---
@@ -11,6 +13,42 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(function () { toast.remove(); }, 300);
     }, 3000);
   });
+
+  // --- Silme formları: onay ---
+  document.querySelectorAll("form[data-confirm]").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      if (!window.confirm(form.getAttribute("data-confirm"))) e.preventDefault();
+    });
+  });
+
+  // --- Anketi paylaş: panoya kopyala ---
+  var shareBtn = document.getElementById("share-poll");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", function () {
+      var url = window.location.href.split("?")[0];
+      function bitti(basarili) {
+        var eski = "🔗 Anketi paylaş";
+        shareBtn.textContent = basarili ? "Kopyalandı ✓" : "Kopyalanamadı ✗";
+        setTimeout(function () { shareBtn.textContent = eski; }, 2000);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(
+          function () { bitti(true); },
+          function () { bitti(false); }
+        );
+      } else {
+        // Eski tarayıcılar için yedek yöntem
+        var gizli = document.createElement("input");
+        document.body.appendChild(gizli);
+        gizli.value = url;
+        gizli.select();
+        var basarili = false;
+        try { basarili = document.execCommand("copy"); } catch (err) { basarili = false; }
+        document.body.removeChild(gizli);
+        bitti(basarili);
+      }
+    });
+  }
 
   // --- Anket oluşturma: seçenek satırı ekle/kaldır ---
   var rowsContainer = document.getElementById("choice-rows");

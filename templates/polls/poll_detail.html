@@ -53,5 +53,15 @@
 
     <p class="poll-detail__actions"><a href="{% url 'polls:poll_detail' poll.pk %}?sonuc=1">Sonuçları gör (oy vermeden) →</a></p>
   {% endif %}
+  <div class="poll-detail__footer">
+    <button type="button" id="share-poll" class="btn btn--ghost btn--sm">🔗 Anketi paylaş</button>
+    {% if user.is_authenticated and poll.creator_id == user.id %}
+    <form method="post" action="{% url 'polls:poll_delete' poll.pk %}" class="inline-form"
+          data-confirm="Bu anketi ve tüm oyları silmek istediğine emin misin? Bu işlem geri alınamaz.">
+      {% csrf_token %}
+      <button type="submit" class="btn btn--danger btn--sm">Anketi sil</button>
+    </form>
+    {% endif %}
+  </div>
 </article>
 {% endblock %}
