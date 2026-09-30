@@ -1,0 +1,10 @@
+# Vercel'e yüklenmeyecekler (.vercelignore varken .gitignore yoksayılır)
+# NOT: staticfiles/ BILERTE dahil edilmeli (WhiteNoise onu servis eder;
+# deploy oncesi yerelde "python manage.py collectstatic --noinput" calistir)
+.git
+.gitignore
+.env
+.env.local
+.venv
+.idea
+db.sqlite3

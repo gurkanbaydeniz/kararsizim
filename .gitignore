@@ -18,3 +18,7 @@ staticfiles/
 # OS
 Thumbs.db
 .DS_Store
+
+.vercel
+.env*
+.env.local
