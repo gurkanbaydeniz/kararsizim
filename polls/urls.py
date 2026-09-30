@@ -12,5 +12,6 @@ urlpatterns = [
     # Sıra önemli: sabit yollar, <int:pk>'den ÖNCE tanımlanmalı
     path("anket/olustur/", views.poll_create, name="poll_create"),
     path("anketlerim/", views.my_polls, name="my_polls"),
+    path("anket/<int:pk>/oy/", views.vote, name="vote"),
     path("anket/<int:pk>/", views.poll_detail, name="poll_detail"),
 ]

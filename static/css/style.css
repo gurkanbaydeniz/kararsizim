@@ -354,12 +354,88 @@ img { max-width: 100%; }
   color: var(--ink);
 }
 
-/* Seçenek renk döngüsü (doct/PROJE.md 8.1: --opt-1..5) */
-.choice-list .choice-pill:nth-child(5n+1) { --opt: var(--opt-1); }
-.choice-list .choice-pill:nth-child(5n+2) { --opt: var(--opt-2); }
-.choice-list .choice-pill:nth-child(5n+3) { --opt: var(--opt-3); }
-.choice-list .choice-pill:nth-child(5n+4) { --opt: var(--opt-4); }
-.choice-list .choice-pill:nth-child(5n+5) { --opt: var(--opt-5); }
+/* Seçenek renk döngüsü (doct/PROJE.md 8.1: --opt-1..5) — oy formları ve sonuç satırları */
+.choice-list > form:nth-of-type(5n+1) .choice-pill { --opt: var(--opt-1); }
+.choice-list > form:nth-of-type(5n+2) .choice-pill { --opt: var(--opt-2); }
+.choice-list > form:nth-of-type(5n+3) .choice-pill { --opt: var(--opt-3); }
+.choice-list > form:nth-of-type(5n+4) .choice-pill { --opt: var(--opt-4); }
+.choice-list > form:nth-of-type(5n+5) .choice-pill { --opt: var(--opt-5); }
+
+.results .result-item:nth-of-type(5n+1) { --opt: var(--opt-1); }
+.results .result-item:nth-of-type(5n+2) { --opt: var(--opt-2); }
+.results .result-item:nth-of-type(5n+3) { --opt: var(--opt-3); }
+.results .result-item:nth-of-type(5n+4) { --opt: var(--opt-4); }
+.results .result-item:nth-of-type(5n+5) { --opt: var(--opt-5); }
+
+/* Oy butonu olarak kullanılan pill */
+.vote-form { margin: 0; }
+
+.choice-pill--btn {
+  cursor: pointer;
+  font: inherit;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.choice-pill--btn:hover {
+  transform: scale(1.01);
+  box-shadow: var(--shadow-md);
+}
+.choice-pill--btn:active { transform: scale(.99); }
+
+/* ---------- Sonuç barları ---------- */
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.result-item__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.result-item__label { overflow-wrap: anywhere; }
+
+.result-item__mine { color: var(--teal); font-weight: 800; font-size: .8rem; white-space: nowrap; }
+
+.result-item__percent { white-space: nowrap; }
+
+.result-item__count { color: var(--ink-soft); font-weight: 600; font-size: .8rem; }
+
+.result-bar {
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: var(--border);
+  overflow: hidden;
+}
+
+.result-bar__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--opt, var(--primary));
+  animation: bar-grow .5s ease;
+}
+
+@keyframes bar-grow {
+  from { width: 0; }
+}
+
+.poll-detail__total {
+  margin: 20px 0 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.poll-detail__actions {
+  margin: 16px 0 0;
+  text-align: center;
+}
 
 .choice-pill__dot {
   width: 12px;

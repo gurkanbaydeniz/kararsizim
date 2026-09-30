@@ -12,15 +12,46 @@
     {% endif %}
   </p>
 
-  <div class="choice-list">
-    {% for choice in choices %}
-    <div class="choice-pill" role="group" aria-label="Seçenek: {{ choice.text }}">
-      <span class="choice-pill__dot"></span>
-      <span class="choice-pill__text">{{ choice.text }}</span>
+  {% if sonuc_acik %}
+    {# ---- Sonuç modu ---- #}
+    <div class="results">
+      {% for r in results %}
+      <div class="result-item">
+        <div class="result-item__top">
+          <span class="result-item__label">
+            {% if r.is_winner %}👑 {% endif %}{{ r.text }}{% if r.is_mine %} <span class="result-item__mine">✔ senin oyun</span>{% endif %}
+          </span>
+          <span class="result-item__percent">%{{ r.percent }} <span class="result-item__count">({{ r.votes }} oy)</span></span>
+        </div>
+        <div class="result-bar">
+          <div class="result-bar__fill" style="width: {{ r.percent }}%"></div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
 
-  <p class="poll-detail__note">🗳️ Oylama Faz 3'te açılıyor — çok yakında!</p>
+    <p class="poll-detail__total">Toplam {{ poll.total_votes }} oy</p>
+
+    {% if not has_voted %}
+    <p class="poll-detail__actions"><a href="{% url 'polls:poll_detail' poll.pk %}">← Oylamaya dön</a></p>
+    {% endif %}
+
+  {% else %}
+    {# ---- Oylama modu ---- #}
+    <div class="choice-list">
+      {% for choice in choices %}
+      <form method="post" action="{% url 'polls:vote' poll.pk %}" class="vote-form">
+        {% csrf_token %}
+        <input type="hidden" name="choice_id" value="{{ choice.id }}">
+        <button type="submit" class="choice-pill choice-pill--btn">
+          <span class="choice-pill__dot"></span>
+          <span class="choice-pill__text">{{ choice.text }}</span>
+        </button>
+      </form>
+      {% endfor %}
+    </div>
+
+    <p class="poll-detail__actions"><a href="{% url 'polls:poll_detail' poll.pk %}?sonuc=1">Sonuçları gör (oy vermeden) →</a></p>
+  {% endif %}
 </article>
 {% endblock %}

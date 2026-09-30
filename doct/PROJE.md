@@ -138,6 +138,7 @@ def get_voter_key(request):
 ### Sorgu notları
 - Feed sorgusunda N+1'den kaçın: `Poll.objects.select_related("creator").annotate(total_votes=Count("votes", distinct=True))`.
 - Detay sayfasında her seçenek için oy sayısı: `Choice.objects.filter(poll=...).annotate(vote_count=Count("votes"))`.
+- **Dikkat:** `.annotate()` yapılan sorgularda Django `Meta.ordering`'i uygulamayabilir; seçenek sırası için `.annotate(...)` sonrası `.order_by("position", "id")` açıkça yazılır.
 - Yüzde: `choice.vote_count / poll.toplam_oy * 100` (tam sayıya yuvarla, 0 oy varsa "Henüz oy yok" durumu).
 
 ---
